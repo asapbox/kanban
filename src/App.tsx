@@ -1,25 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Scaffold } from "./components/Scaffold";
+import { TaskCard } from "./components/TaskCard";
+import { StatusColumn } from "./components/StatusColumn";
+import { GlobalStyle } from "./GlobalStyle.styled";
+import { Row } from "./components/Row";
+import { SideBar } from "./components/SideBar";
+import { AddTaskForm } from "./components/AddTaskForm";
+import { listOfTask } from "mockData";
+import { useAppSelector } from "hooks/redux";
+
+
 
 function App() {
+
+const tasks = useAppSelector((state)=> state.taskAction.tasks );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      <Scaffold
+        child={
+          <Row
+            children={[
+              <SideBar />,
+              <StatusColumn
+                key="1"
+                title="Backlog"
+                children={[...listOfTask, ...tasks]}
+              />,
+              // <StatusColumn
+              //   key={'2'}
+              //   title="In Progress"
+              //   children={listOfTask}
+              // />,
+              // <StatusColumn key={'3'} title="Done" children={listOfTask} />,
+              <AddTaskForm />,
+            ]}
+          />
+        }
+      />
+    </>
   );
 }
 
